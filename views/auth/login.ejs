@@ -1,0 +1,34 @@
+<h1> Login </h1>
+<div class="flash-container">
+  <% const messages = getMessages() %>
+
+  <% if (messages) { %>
+       <% Object.entries(messages).forEach((obj) => { %>
+           <% var category = obj[0] %>
+           <% var message = obj[1] %>
+               <%= message %> <%= category %>
+           </div>
+       <% }) %>
+  <% } %>
+</div>
+<form action="/auth/login" method="POST">
+<div>
+<label for="username">Username</label>
+<input
+type="text"
+name="username"
+placeholder="Enter username"
+/>
+</div>
+<div>
+    <label for="password">Password</label>
+    <input
+      type="password"
+      name="password"
+      placeholder="Enter Password"
+    />
+  
+</div>
+<button type="submit" class="btn btn-primary btn-block">Login</button>
+   
+</form>

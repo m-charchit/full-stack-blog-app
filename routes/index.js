@@ -1,9 +1,11 @@
 const express = require('express')
 const router = express.Router()
+const fetchUser = require("../middleware/FetchUser.js")
 
-router.get("/",(req,res)=>{
-	res.render("index")
-})
+router.get('/', fetchUser ,function (req, res) {
+	console.log(req.user)
+	res.render('index', { user : req.user });
+});
 
 
 module.exports = router
