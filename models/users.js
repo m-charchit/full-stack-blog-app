@@ -14,6 +14,7 @@ const User  = new mongoose.Schema({
       default : Date.now
   }
 });
+
 User.plugin(passportLocalMongoose);
 
 module.exports = mongoose.model('User',User);

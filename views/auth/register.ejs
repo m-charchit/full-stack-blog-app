@@ -1,47 +1,76 @@
-<h1>Register</h1>
-<% if (typeof error != "undefined") { %>
- error
-<% } %>
-<form action="/auth/register" method="POST">
-<div>
-    <label for="username">Username</label>
-    <input
-      type="username"
-      name="username"
-      placeholder="Enter Name"
-      value="<%= typeof username != 'undefined' ? username : '' %>"
-    />
-  
+<div class="container text-center my-4 py-2">
+  <%- include('../custom/flash') %>
+    <h1 class="p-4">Register</h1>
+    <section class="d-flex justify-content-center">
+      <form action="/auth/register" method="post" style="width: 32rem">
+        <!-- Username input -->
+        <div class="form-outline mb-4">
+          <input type="text" id="form3Example3" name="username"
+            class="form-control <%= typeof error.find((e)=>{return e.param == " username"}) !="undefined" ? "is-invalid"
+            :"" %>"
+          value="<%= typeof username !='undefined' ? username : '' %>" />
+            <label class="form-label" for="form3Example3">Username</label>
+
+            <% error.forEach(element=> { %>
+              <div class="invalid-feedback">
+                <%= element.param=="username" ? element.msg:"" %>
+              </div>
+              <% }) %>
+        </div>
+
+        <!-- Email input -->
+        <div class="form-outline mb-4">
+          <input type="email" name="email" id="form3Example3"
+            class="form-control <%= typeof error.find((e)=>{return e.param == " email"}) !="undefined" ? "is-invalid"
+            :"" %>"
+          value="<%= typeof email !='undefined' ? email : '' %>" />
+            <label class="form-label" for="form3Example3">Email address</label>
+            <% error.forEach(element=> { %>
+              <div class="invalid-feedback">
+                <%= element.param=="email" ? element.msg:"" %>
+              </div>
+              <% }) %>
+        </div>
+
+        <!-- Password input -->
+        <div class="row mb-4">
+          <div class="col">
+            <div class="form-outline mb-4">
+              <input type="password" name="password" id="form3Example4"
+                class="form-control <%= typeof error.find((e)=>{return e.param == " password"}) !="undefined"
+                ? "is-invalid" :"" %>"
+              value="<%= typeof password !='undefined' ? password : '' %>" />
+                <label class="form-label" for="form3Example4">Password</label>
+                <% error.forEach(element=> { %>
+                  <div class="invalid-feedback">
+                    <%= element.param=="password" ? element.msg:"" %>
+                  </div>
+                  <% }) %>
+            </div>
+          </div>
+          <div class="col">
+
+            <div class="form-outline mb-4">
+              <input type="password" name="password2" id="form3Example4"
+                class="form-control <%= typeof error.find((e)=>{return e.param == " password2"}) !="undefined"
+                ? "is-invalid" :"" %> "
+              value="<%= typeof password2 !='undefined' ? password2 : '' %>" />
+                <label class="form-label" for="form3Example4">Confirm password</label>
+                <% error.forEach(element=> { %>
+                  <div class="invalid-feedback">
+                    <%= element.param=="password2" ? element.msg:"" %>
+                  </div>
+                  <% }) %>
+            </div>
+          </div>
+        </div>
+
+        <!-- Submit button -->
+        <button type="submit" class="btn btn-primary btn-block mb-4">
+          Sign up
+        </button>
+
+        <p>Have An Account? <a href="/auth/login">Login</a></p>
+      </form>
+    </section>
 </div>
-<div>
-    <label for="email">Email</label>
-    <input
-      type="email"
-      name="email"
-      placeholder="Enter Email"
-      value="<%= typeof email != 'undefined' ? email : '' %>"
-    />
-  </div>
-  <div >
-    <label for="password">Password</label>
-    <input
-      type="password"
-      name="password"
-      placeholder="Create Password"
-      value="<%= typeof password != 'undefined' ? password : '' %>"
-    />
-  </div>
-  <div >
-    <label for="password2">Confirm Password</label>
-    <input
-      type="password"
-      name="password2"
-      placeholder="Confirm Password"
-      value="<%= typeof password2 != 'undefined' ? password2 : '' %>"
-    />
-  </div>
-  <button type="submit" class="btn btn-primary btn-block">
-    Register
-  </button>
-</form>
-<p >Have An Account? <a href="/auth/login">Login</a></p>

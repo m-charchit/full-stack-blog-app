@@ -18,7 +18,7 @@ router.get("/register", (req, res) => {
 	
 	if(req.isUnauthenticated()){
 
-  res.render("auth/register");
+  res.render("auth/register",{error:[]});
 	}
 	else{
 		return res.redirect("/")
@@ -27,11 +27,12 @@ router.get("/register", (req, res) => {
 
 router.post(
   "/register",
+  body("username","The field cannot be empty").not().isEmpty(),
   body("email").isEmail(),
-  body("password").isLength({ min: 5 }),
+  body("password","Length should be 5 or more").isLength({ min: 5 }),
   body("password2").custom((value, { req }) => {
     if (value !== req.body.password) {
-      throw new Error("Password confirmation does not match password");
+      throw new Error("Passwords don't match");
     }
     return true;
   }),
@@ -39,7 +40,8 @@ router.post(
     const { username, email, password } = req.body;
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.render("auth/register", { error: errors });
+      console.log(errors.array())
+      return res.render("auth/register", { error: errors.array() });
     }
     // @ts-ignore
     User.register(
@@ -48,10 +50,9 @@ router.post(
       (err, account) => {
         if (err) {
 			console.log(err,account)
-          return res.render("auth/register", {
-            info: "Sorry. That username already exists. Try again.",
-			
-          });
+          // @ts-ignore
+          req.flash("danger","Sorry. That username already exists. Try again.")
+          return res.render("auth/register", {error:[]});
         }
 
         passport.authenticate("local")(req, res, () => {
@@ -68,10 +69,11 @@ router.post('/login', passport.authenticate('local', {
     failureRedirect: '/auth/login',
     failureFlash: true
 }));
+
 //logout
 router.post('/logout', function(req, res) {
 	req.logout();
-	res.redirect('/');
+	res.redirect('/auth/login');
 });
 
 module.exports = router;
