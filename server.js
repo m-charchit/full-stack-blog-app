@@ -11,7 +11,9 @@ const passport = require("passport")
 
 const User = require('./models/users')
 const indexRouter = require('./routes/index')
-const userRouter = require('./routes/auth')
+const authRouter = require('./routes/auth');
+const postRouter = require('./routes/post');
+const userRouter = require("./routes/user")
 const mongoDbUri = 'mongodb://localhost/test'
 
 app.set('view engine', 'ejs')
@@ -57,7 +59,9 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 app.use("/",indexRouter)
-app.use("/auth",userRouter)
+app.use("/auth",authRouter)
+app.use("/post",postRouter)
+app.use("/user",userRouter)
 
 app.listen(process.env.PORT || 3000)
 
