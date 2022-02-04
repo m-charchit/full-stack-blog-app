@@ -1,0 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap');
+.postImage {
+    width: 100%;
+    height: 250px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+.outline-none{
+    outline:none;
+}
+.desc{
+    font-family: 'Patrick Hand', cursive;
+}
