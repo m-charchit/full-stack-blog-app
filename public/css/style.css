@@ -1,0 +1,16 @@
+.outline-none{
+    outline:none;
+}
+.desc{
+    font-family: 'Patrick Hand', cursive;
+}
+.profileDiv{
+    background:white;
+    z-index:-1;
+    position: relative;
+    border-radius: 20px;
+    padding: 25px;
+    top: -99px;
+    padding-top: 118px;
+}
+body{background: #f7f2f266;}

@@ -1,0 +1,33 @@
+<div class="container text-center">
+    <form action="/profile" method="post">
+    <div class="row">
+        <div class="col-md-4 ">
+            <div class="d-flex align-items-center flex-column">
+                <img src="/images/default.jpg" alt="profile pic" width="200" height="200" class="rounded-circle hover-shadow" />
+                <label for="picInput">
+                <i class="fas fa-plus-circle fs-1" role="button" style="position: relative;top:-58px;left:-62px;"></i>
+            </label>
+                <input type="file" name="" id="picInput" class="d-none">
+            </div>
+        </div>
+        <div class="col-md-8 mt-4">
+            <div class="form-floating">
+                <input type="text" id="username" class="form-control border-0 border-bottom outline-none rounded-0 shadow-none" placeholder="Username">
+                <label  for="username">Username</label>
+            </div>
+            <div class="form-floating mt-3">
+                <input type="email" id="email" class="form-control border-0 border-bottom outline-none rounded-0 shadow-none" placeholder="Email">
+                <label  for="email">Email</label>
+            </div>
+        </div>
+        <div class="form-floating">
+            <textarea name="" id="about"  class="form-control border-0 border-bottom rounded-0 outline-none fs-4 shadow-none" style="height: 14rem;"
+            placeholder="Tell about yourself..."></textarea>
+            <label class="ps-4 fs-5" for="about">Tell about yourself...</label>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-dark m-4">Update</button>
+    <button type="submit" class="btn btn-dark m-4">Reset</button>
+</form>
+
+</div>
