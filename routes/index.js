@@ -7,9 +7,6 @@ router.get('/', FetchUser , (req, res) => {
 	res.render('index', { user : req.user });
 });
 
-router.get("/about", (req,res) => {
-	res.render('about')
-})
 
 router.get('/contact', (req, res) => {
 	res.render('contact')

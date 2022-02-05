@@ -4,6 +4,14 @@
 .desc{
     font-family: 'Patrick Hand', cursive;
 }
+.navbar {
+    position: fixed;
+    top: 0px;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    transition: 0.5s;
+}
 .profileDiv{
     background:white;
     z-index:-1;
@@ -13,4 +21,3 @@
     top: -99px;
     padding-top: 118px;
 }
-body{background: #f7f2f266;}
