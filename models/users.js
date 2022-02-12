@@ -12,7 +12,19 @@ const User  = new mongoose.Schema({
   date :{
       type : Date,
       default : Date.now
-  }
+  } ,
+  // profileImage: {
+  //   type: Buffer,
+  //   required: true
+  // },
+  // profileImageType: {
+  //   type: String,
+  //   required: true
+  // },
+  about: {
+    type:String,
+  },
+
 });
 
 User.plugin(passportLocalMongoose);

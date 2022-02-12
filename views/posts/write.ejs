@@ -1,17 +1,17 @@
 <link rel="stylesheet" href="/css/write.css">
-
+<%- include("../custom/flash") %> 
 <div class="container p-5 ">
     <img src="/images/defaultPost.jpg" alt="post image" class="postImage" width="400" height="400" />
     <div class="d-flex flex-column ">
-        <form action="/user/profile" method="post">
+        <form action="/post/write" method="post">
         <div class="d-flex my-3 align-items-center">
             <label for="fileInput"> 
                 <i class="fas fa-plus-circle fs-2 " role="button"></i>
               </label>
             <input type="file" name="" class="d-none" autofocus="true" id="fileInput">
-            <input type="text" class="border-0 outline-none ms-3 fs-2 w-100 text-muted" placeholder="Title.." />
+            <input type="text" name="title" class="border-0 outline-none ms-3 fs-2 w-100 text-muted" placeholder="Title.." />
         </div>
-        <textarea name="" id="" cols="30" rows="6" class="border-0 outline-none fs-2 text-muted w-100"
+        <textarea name="content" id="content" cols="30" rows="6" class="border-0 outline-none fs-2 text-muted w-100"
             placeholder="Tell us something..."></textarea>
             <br>
         <button class="btn btn-dark btn-inline">Submit</button>
