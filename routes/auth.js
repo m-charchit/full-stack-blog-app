@@ -4,8 +4,6 @@ const User = require("../models/users.js");
 const { body, validationResult } = require("express-validator");
 const passport = require("passport");
 
-
-
 router.get("/login",  (req, res) => {
 	if (req.isUnauthenticated()){
   		res.render("auth/login",{user:req.user});
@@ -27,7 +25,7 @@ router.get("/register", (req, res) => {
 
 router.post(
   "/register",
-  body("username","The field cannot be empty").not().isEmpty(),
+  body("username","The field cannot be empty and should be 6 character long").not().isEmpty().isLength({min:6}),
   body("email").isEmail(),
   body("password","Length should be 5 or more").isLength({ min: 5 }),
   body("password2").custom((value, { req }) => {

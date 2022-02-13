@@ -23,6 +23,7 @@ const User  = new mongoose.Schema({
   // },
   about: {
     type:String,
+    default:"User has not written about him."
   },
 
 });

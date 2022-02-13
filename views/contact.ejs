@@ -7,27 +7,51 @@
     </div>  
 </header> 
 <div class="container mt-5">
-    <form >
+  <%- include('./custom/flash') %>
+
+    <form action="/contact" method="post">
+
         <!-- Name input -->
         <div class="form-floating mb-4">
-          <input type="text" id="form4Example1" class="form-control border-0 border-bottom outline-none rounded-0 shadow-none" />
-          <label  for="form4Example1">Name</label>
+          <input type="text" name="name" id="name" class="form-control border-0 border-bottom outline-none rounded-0 shadow-none <%= typeof error.find((e)=>{return e.param == "name"}) !="undefined" ? "is-invalid"
+          :"" %>"
+        value="<%= typeof name !='undefined' ? name : '' %>" required />
+          <label  for="name">Name</label>
+          <% error.forEach(element=> { %>
+            <div class="invalid-feedback">
+              <%= element.param=="name" ? element.msg:"" %>
+            </div>
+            <% }) %>
         </div>
       
         <!-- Email input -->
         <div class="form-floating mb-4">
-          <input type="email" id="form4Example2" class="form-control border-0 border-bottom outline-none rounded-0 shadow-none" />
-          <label for="form4Example2">Email address</label>
+          <input type="email" name="email" id="email" class="form-control border-0 border-bottom outline-none rounded-0 shadow-none <%= typeof error.find((e)=>{return e.param == "email"}) !="undefined" ? "is-invalid"
+          :"" %>"
+        value="<%= typeof email !='undefined' ? email : '' %>" required />
+          <label for="email">Email address</label>
+          <% error.forEach(element=> { %>
+            <div class="invalid-feedback">
+              <%= element.param=="email" ? element.msg:"" %>
+            </div>
+            <% }) %>
         </div>
 
         <!-- Message input -->
         <div class="form-floating mb-4">
-          <textarea class="form-control border-0 border-bottom rounded-0 outline-none fs-4 shadow-none" style="height: 14rem;" id="form4Example3" rows="4"></textarea>
-          <label for="form4Example3">Message</label>
+          <textarea name="message" class="form-control border-0 border-bottom rounded-0 outline-none fs-4 shadow-none <%= typeof error.find((e)=>{return e.param == "message"}) !="undefined" ? "is-invalid"
+            :"" %>"
+          value="<%= typeof message !='undefined' ? message : '' %>" style="height: 14rem;" id="message" rows="4" required></textarea>
+          <label for="message">Message</label>
+          <% error.forEach(element=> { %>
+            <div class="invalid-feedback">
+              <%= element.param=="message" ? element.msg:"" %>
+            </div>
+            <% }) %>
         </div>
       
       
         <!-- Submit button -->
-        <button type="submit" class="btn btn-primary mb-4">Send</button>
+        <button type="submit" class="btn btn-primary mb-4" >Send</button>
       </form>
 </div>

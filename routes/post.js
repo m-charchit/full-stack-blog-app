@@ -3,6 +3,8 @@ const router = express.Router();
 const FetchUser = require("../middleware/FetchUser");
 const User = require("../models/users");
 const Post = require("../models/posts");
+const { body, validationResult } = require("express-validator");
+
 
 router.get("/u/:id", async (req, res) => {
   const post = await Post.findById(req.params.id);
@@ -13,21 +15,27 @@ router.get("/write", FetchUser, async (req, res) => {
   return res.render("posts/write");
 });
 
-router.get("/edit/:id", FetchUser, async (req, res) => {
+router.get("/edit/:id",FetchUser, async (req, res) => {
   try {
+    const findNote = await Post.findById(req.params.id);
+    if (findNote.user.toString() !== req.user.id) {
+      // @ts-ignore
+      req.flash("danger", "Not allowrd");
+      return res.redirect(`u/${findNote.id}`);
+    }
     const userPost = await Post.find({ id: req.params.id, user: req.user.id });
     if (userPost) {
       return res.render("posts/write", { post: userPost });
     }
-    return res.redirect("write");
+    return res.redirect(`u/${req.params.id}`);
   } catch (error) {
     // @ts-ignore
     req.flash("error", "Oops! Error occured!");
-    return res.render("posts/write");
+    return res.redirect(`u/${req.params.id}`);
+
   }
 });
-
-router.post("/edit/:id", FetchUser, async (req, res) => {
+router.post("/edit/:id", body("title").isLength({min:15}),body("content").isLength({min:200}), FetchUser, async (req, res) => {
   try {
     const findNote = await Post.findById(req.params.id);
     if (findNote.user.toString() !== req.user.id) {
@@ -49,7 +57,7 @@ router.post("/edit/:id", FetchUser, async (req, res) => {
   }
 });
 
-router.post("/write", FetchUser, async (req, res) => {
+router.post("/write",body("title").isLength({min:15}),body("content").isLength({min:200}), FetchUser, async (req, res) => {
   try {
     const { title, content } = req.body;
     // @ts-ignore

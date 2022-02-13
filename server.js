@@ -7,6 +7,7 @@ const mongoStore = require('connect-mongo');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override')
 const passport = require("passport")
+const bodyParser = require('body-parser')
 
 
 const User = require('./models/users')
@@ -21,6 +22,7 @@ app.set('views', __dirname + '/views')
 app.set('layout', 'layouts/layout')
 app.use(expressLayouts)
 app.set("layout extractStyles", true)
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.json())
 app.use(methodOverride('_method'))
 app.use(express.static('public'))
