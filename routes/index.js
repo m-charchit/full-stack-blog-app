@@ -15,9 +15,18 @@ const transporter = nodemailer.createTransport({
 });
 
 router.get("/", FetchUser, async (req, res) => {
-  const posts = await Post.find();
-
-  res.render("index", { user: req.user, posts: posts });
+  // @ts-ignore
+  var page = parseInt(req.query.page)
+  const postNo = 8
+  if (!page || page < 0){
+    page = 0
+  }
+  console.log(page)
+  const totalDocs = await Post.countDocuments()
+  var lastPage = Math.ceil(totalDocs/postNo) -1
+  if (page>lastPage) page=lastPage
+  const posts = await Post.find().skip(page*postNo).limit(postNo);
+  res.render("index", { user: req.user, posts: posts ,page:page, lastPage:lastPage});
 });
 
 router.get("/contact", (req, res) => {
