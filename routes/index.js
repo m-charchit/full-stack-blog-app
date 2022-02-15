@@ -3,14 +3,15 @@ const router = express.Router();
 const FetchUser = require("../middleware/FetchUser.js");
 const Post = require("../models/posts");
 const { body, validationResult } = require("express-validator");
+const dotenv = require('dotenv');
+dotenv.config();
 
 const nodemailer = require("nodemailer");
-
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: "charchit.dahiya@gmail.com",
-    pass: "cvbv bqwo pawa nflr",
+    user: process.env.GMAIL_USERNAME,
+    pass: process.env.GMAIL_PASSWORD,
   },
 });
 
@@ -21,12 +22,11 @@ router.get("/", FetchUser, async (req, res) => {
   if (!page || page < 0){
     page = 0
   }
-  console.log(page)
   const totalDocs = await Post.countDocuments()
   var lastPage = Math.ceil(totalDocs/postNo) -1
   if (page>lastPage) page=lastPage
   const posts = await Post.find().skip(page*postNo).limit(postNo);
-  res.render("index", { user: req.user, posts: posts ,page:page, lastPage:lastPage});
+  res.render("index", {  posts: posts ,page:page, lastPage:lastPage});
 });
 
 router.get("/contact", (req, res) => {
@@ -34,7 +34,7 @@ router.get("/contact", (req, res) => {
 });
 
 router.post(
-  "/contact",
+  "/contact", 
   body("name").not().isEmpty(),
   body("email").isEmail(),
   body("message", "Should contain atleast 30 character").isLength({ min: 30 }),
@@ -49,21 +49,19 @@ router.post(
       from: email,
       to: "charchit.dahiya@gmail.com",
       subject: `Message from ${name} on Super blog`,
-      text: message,
+      html:`${message}\n\n${req.user.username}\n\nusername - http://127.0.0.1:3000/user/profile/${req.user.id}`,
     };
 
     transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
 		  // @ts-ignore
 		  req.flash("danger","Error occured! Try again later. If error persists , contact creator.")
-		  res.redirect("contact")
-		  return res.sendStatus(500);
+		  return res.redirect("contact")
       } else {
 		  console.log(info)
 		  // @ts-ignore
 		  req.flash("success","Message sent successfully!")
-		  res.redirect("contact");
-		  return res.sendStatus(200)
+		  return res.redirect("contact");
       }
     });
 

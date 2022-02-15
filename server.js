@@ -17,6 +17,7 @@ const postRouter = require('./routes/post');
 const userRouter = require("./routes/user")
 const mongoDbUri = 'mongodb://localhost/test'
 
+
 app.set('view engine', 'ejs')
 app.set('views', __dirname + '/views')
 app.set('layout', 'layouts/layout')
@@ -42,7 +43,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(function (req, res, next) {
 	res.locals.login = req.isAuthenticated();
-	res.locals.user = req.user;
+	res.locals.currentUser = req.user;
 	next();
   });
   

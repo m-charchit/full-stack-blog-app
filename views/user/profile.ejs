@@ -4,13 +4,13 @@
     <div class="flex flex-column align-items-center">
         <img src="/images/default.jpg" alt="" width="200" height="200" class="rounded-circle hover-shadow" style="">
         <div class="profileDiv shadow-2-strong hover-shadow">
-            <h3>Charchit</h3>
+            <h3><%= user.username %> </h3>
             <hr>
-            <div> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Earum veritatis dolor fugiat consequatur, eveniet soluta expedita exercitationem, beatae iusto odit placeat doloribus quo numquam! Illum facere doloremque fugit in, veniam animi dicta! Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo, aperiam nemo tempora maiores officia ducimus asperiores corrupti voluptatum consectetur. Eligendi, amet.</div>
+            <div><%=  user.about %></div>
         </div>
     </div>
     <h1>User Posts</h1>
     <hr>
-    <%- include("../custom/cards.ejs") %> 
+    <%- include("../custom/cards.ejs",{page:page,lastPage:lastPage}) %> 
 
 </div>
