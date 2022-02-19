@@ -16,14 +16,19 @@
         </div>
         <% }) %>
       </div>
-      <nav aria-label="..." >
-        <ul class="pagination pagination-lg justify-content-between mt-5">
-          <li class="page-item disabled">
-            <a class=" btn btn-dark btn-lg mx-2 <%= page==0 ? 'disabled':'' %> " role="button" href="?page=<%= page - 1 %> ">Previous</a>
-          </li>
-          <li class="page-item">
-            <a class=" btn btn-dark btn-lg mx-2 <%= page==lastPage ? 'disabled':'' %>" role="button" href="?page=<%= page + 1%> ">Next</a>
-          </li>
-        </ul>
-      </nav>
-</div>
+      <% if (posts.length != 0) { %>
+       
+        <nav aria-label="..." >
+          <ul class="pagination pagination-lg justify-content-between mt-5">
+            <li class="page-item disabled">
+              <a class=" btn btn-dark btn-lg mx-2 <%= page==0 ? 'disabled':'' %> " role="button" href="?page=<%= page - 1 %> ">Previous</a>
+            </li>
+            <li class="page-item">
+              <a class=" btn btn-dark btn-lg mx-2 <%= page==lastPage ? 'disabled':'' %>" role="button" href="?page=<%= page + 1%> ">Next</a>
+            </li>
+          </ul>
+        </nav>
+        <% } else { %>
+          <h1>No Posts</h1>
+          <% } %>
+      </div>

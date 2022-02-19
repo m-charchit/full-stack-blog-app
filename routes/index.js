@@ -23,7 +23,7 @@ router.get("/", FetchUser, async (req, res) => {
     page = 0
   }
   const totalDocs = await Post.countDocuments()
-  var lastPage = Math.ceil(totalDocs/postNo) -1
+  var lastPage = Math.abs(Math.ceil(totalDocs/postNo) -1)
   if (page>lastPage) page=lastPage
   const posts = await Post.find().skip(page*postNo).limit(postNo);
   res.render("index", {  posts: posts ,page:page, lastPage:lastPage});
@@ -49,7 +49,7 @@ router.post(
       from: email,
       to: "charchit.dahiya@gmail.com",
       subject: `Message from ${name} on Super blog`,
-      html:`${message}\n\n${req.user.username}\n\nusername - http://127.0.0.1:3000/user/profile/${req.user.id}`,
+      html:`${message}\n\n${req.user.username}\n\nhttp://127.0.0.1:3000/user/profile/${req.user.id}`,
     };
 
     transporter.sendMail(mailOptions, function (error, info) {

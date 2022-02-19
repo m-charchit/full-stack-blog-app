@@ -35,7 +35,7 @@ router.post(
     return true;
   }),
   (req, res) => {
-    const { username, email, password } = req.body;
+    const {name, username, email, password } = req.body;
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       console.log(errors.array())
@@ -43,7 +43,7 @@ router.post(
     }
     // @ts-ignore
     User.register(
-      new User({ username: username ,email:email}),
+      new User({name:name, username: username ,email:email}),
        password ,
       (err, account) => {
         if (err) {

@@ -1,5 +1,7 @@
 const FetchUser = (req, res, next) => {
+    console.log(req.user,"sss")
     if (req.isAuthenticated()) {
+        console.log(req.user,"ss")
         return next()
     }
     else{

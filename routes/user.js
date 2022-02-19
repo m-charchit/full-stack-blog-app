@@ -14,8 +14,9 @@ router.get("/profile/:id", async (req, res) => {
     page = 0;
   }
   const totalDocs = await Post.countDocuments();
-  var lastPage = Math.ceil(totalDocs / postNo) - 1;
+  var lastPage = Math.abs(Math.ceil(totalDocs / postNo) - 1);
   if (page > lastPage) page = lastPage;
+
   const posts = await Post.find({ user: req.params.id })
     .skip(page * postNo)
     .limit(postNo);
@@ -29,19 +30,26 @@ router.get("/profile/:id", async (req, res) => {
 });
 
 router.get("/setting", FetchUser, (req, res) => {
+  console.log(req.user)
   res.render("user/setting",{error:[]});
 });
 
 router.get("/change_password", FetchUser, async (req, res) => {
-  res.render("user/password");
+  res.render("user/password",{error:[]});
 });
 
 router.post(
   "/change_password",
   body("password").not().isEmpty(),
-  body("newpassword").isLength({ min: 5 }),
+  body("newPassword").isLength({ min: 5 }),
+  body("password2").custom((value, { req }) => {
+    if (value !== req.body.newPassword) {
+      throw new Error("Passwords don't match");
+    }
+    return true;
+  }),
   FetchUser,
-  (req, res) => {
+  async (req, res) => {
     try {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
@@ -50,33 +58,32 @@ router.post(
       }
       if (req.body.password) {
         // @ts-ignore
-        User.authenticate(
-          req.body.password,
-          async (err, model, passwordError) => {
-            if (passwordError) {
-              console.log(err);
-              // @ts-ignore
-              req.flash("danger", "Incorrect password!");
-            } else if (model) {
-              const user = await User.findById(req.user.id);
-              await user.setPassword(req.body.newpassword).save();
-              // @ts-ignore
-              req.flash("success", "Password Changed successfully");
-            }
-          }
-        );
+
+          const user = await User.findById(req.user.id);
+          await user.changePassword(req.body.password,req.body.newPassword);
+      // @ts-ignore
+          req.flash("success","Password changed succesfully!")
+          
+
+
       }
     } catch (error) {
-      // @ts-ignore
-      req.flash("danger", "Error occured!");
+      if (error.name == "IncorrectPasswordError"){
+        // @ts-ignore
+        req.flash("danger", "Incorrect Password!");  
+      }
+      else{
+        // @ts-ignore
+        req.flash("danger", "Some Error occured!");
+      }
     }
-    return res.redirect("change_password");
+    return res.render("user/password",{error:[]});
   }
 );
 
 router.post(
   "/setting",
-  body("username", "The field cannot be empty and should be 6 character long")
+  body("name", "The field cannot be empty and should be 6 character long")
     .not()
     .isEmpty()
     .isLength({ min: 6 }),
@@ -93,22 +100,24 @@ router.post(
       }
       if (req.body.password) {
         // @ts-ignore
-        const user = User.authenticate(req.body.password);
-        // @ts-ignore
         const authenticate = User.authenticate();
         authenticate(req.user.username, req.body.password,async (err, result) => {
           if (err) {
-            // @ts-ignore
+            console.log(err)
+            
+              // @ts-ignore
             req.flash("danger", "Error occured!");
+            
             return res.render("user/setting",{error:[]})
           }
           if (result) {
-            const { username, email, about } = req.body;
+            const { name, email, about } = req.body;
             await User.findByIdAndUpdate(
               req.user.id,
-              { $set: { email, about } },
+              { $set: { name,email, about } },
               { new: true }
-            );
+              );
+            // @ts-ignore
             return res.redirect("setting")
         }
         else{

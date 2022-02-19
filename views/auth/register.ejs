@@ -5,11 +5,11 @@
       <form action="/auth/register" method="post" style="width: 32rem">
         <!-- Username input -->
         <div class="form-outline mb-4">
-          <input type="text" id="form3Example3" name="username"
+          <input type="text" id="username" name="username"
             class="form-control <%= typeof error.find((e)=>{return e.param == " username"}) !="undefined" ? "is-invalid"
             :"" %>"
           value="<%= typeof username !='undefined' ? username : '' %>" />
-            <label class="form-label" for="form3Example3">Username</label>
+            <label class="form-label" for="username">Username</label>
 
             <% error.forEach(element=> { %>
               <div class="invalid-feedback">
@@ -17,14 +17,28 @@
               </div>
               <% }) %>
         </div>
+        <!-- Name -->
+        <div class="form-outline mb-4">
+          <input type="text" id="name" name="name"
+            class="form-control <%= typeof error.find((e)=>{return e.param == " name"}) !="undefined" ? "is-invalid"
+            :"" %>"
+          value="<%= typeof name !='undefined' ? name : '' %>" />
+            <label class="form-label" for="name">Name</label>
+
+            <% error.forEach(element=> { %>
+              <div class="invalid-feedback">
+                <%= element.param=="name" ? element.msg:"" %>
+              </div>
+              <% }) %>
+        </div>
 
         <!-- Email input -->
         <div class="form-outline mb-4">
-          <input type="email" name="email" id="form3Example3"
+          <input type="email" name="email" id="email"
             class="form-control <%= typeof error.find((e)=>{return e.param == " email"}) !="undefined" ? "is-invalid"
             :"" %>"
           value="<%= typeof email !='undefined' ? email : '' %>" />
-            <label class="form-label" for="form3Example3">Email address</label>
+            <label class="form-label" for="email">Email address</label>
             <% error.forEach(element=> { %>
               <div class="invalid-feedback">
                 <%= element.param=="email" ? element.msg:"" %>
@@ -36,11 +50,11 @@
         <div class="row mb-4">
           <div class="col">
             <div class="form-outline mb-4">
-              <input type="password" name="password" id="form3Example4"
+              <input type="password" name="password" id="password"
                 class="form-control <%= typeof error.find((e)=>{return e.param == " password"}) !="undefined"
                 ? "is-invalid" :"" %>"
               value="<%= typeof password !='undefined' ? password : '' %>" />
-                <label class="form-label" for="form3Example4">Password</label>
+                <label class="form-label" for="password">Password</label>
                 <% error.forEach(element=> { %>
                   <div class="invalid-feedback">
                     <%= element.param=="password" ? element.msg:"" %>
@@ -51,11 +65,11 @@
           <div class="col">
 
             <div class="form-outline mb-4">
-              <input type="password" name="password2" id="form3Example4"
+              <input type="password" name="password2" id="confirmPass"
                 class="form-control <%= typeof error.find((e)=>{return e.param == " password2"}) !="undefined"
                 ? "is-invalid" :"" %> "
               value="<%= typeof password2 !='undefined' ? password2 : '' %>" />
-                <label class="form-label" for="form3Example4">Confirm password</label>
+                <label class="form-label" for="confirmPass">Confirm password</label>
                 <% error.forEach(element=> { %>
                   <div class="invalid-feedback">
                     <%= element.param=="password2" ? element.msg:"" %>
