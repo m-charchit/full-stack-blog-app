@@ -42,7 +42,7 @@ router.post(
     const { name, email, message } = req.body;
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      console.log(errors.array());
+      
       return res.render("contact", { error: errors.array() });
     }
     var mailOptions = {
@@ -58,7 +58,7 @@ router.post(
 		  req.flash("danger","Error occured! Try again later. If error persists , contact creator.")
 		  return res.redirect("contact")
       } else {
-		  console.log(info)
+		  
 		  // @ts-ignore
 		  req.flash("success","Message sent successfully!")
 		  return res.redirect("contact");

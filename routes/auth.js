@@ -38,7 +38,7 @@ router.post(
     const {name, username, email, password } = req.body;
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      console.log(errors.array())
+      
       return res.render("auth/register", { error: errors.array() });
     }
     // @ts-ignore
@@ -47,7 +47,7 @@ router.post(
        password ,
       (err, account) => {
         if (err) {
-			console.log(err,account)
+			
           // @ts-ignore
           req.flash("danger","Sorry. That username already exists. Try again.")
           return res.render("auth/register", {error:[]});

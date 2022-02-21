@@ -30,7 +30,7 @@ router.get("/profile/:id", async (req, res) => {
 });
 
 router.get("/setting", FetchUser, (req, res) => {
-  console.log(req.user)
+  
   res.render("user/setting",{error:[]});
 });
 
@@ -53,7 +53,7 @@ router.post(
     try {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
-        console.log(errors.array());
+        
         return res.render("user/password", { error: errors.array() });
       }
       if (req.body.password) {
@@ -95,7 +95,7 @@ router.post(
     try {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
-        console.log(errors.array());
+        
         return res.render("user/setting", { error: errors.array() });
       }
       if (req.body.password) {

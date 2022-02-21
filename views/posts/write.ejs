@@ -3,16 +3,28 @@
 <div class="container p-5 ">
     <img src="/images/defaultPost.jpg" alt="post image" class="postImage" width="400" height="400" />
     <div class="d-flex flex-column ">
-        <form action="/post/write" method="post">
+        <form action="<%= typeof post != "undefined"? `/post/edit/${post.id}`:"/post/write" %>"  method="post">
         <div class="d-flex my-3 align-items-center">
             <label for="fileInput"> 
                 <i class="fas fa-plus-circle fs-2 " role="button"></i>
               </label>
             <input type="file" name="" class="d-none" autofocus="true" id="fileInput">
-            <input type="text" name="title" class="border-0 outline-none ms-3 fs-2 w-100 text-muted" placeholder="Title.." />
+            <input type="text" name="title" class="border-0 outline-none ms-3 fs-2 w-100 text-muted <%= typeof error.find((e)=>{return e.param == "title"}) !="undefined"
+            ? "is-invalid" :"" %>" placeholder="Title.." value="<%= typeof post != "undefined" ? post.title:"" %>" />
+            <% error.forEach(element=> { %>
+                <div class="invalid-feedback">
+                  <%= element.param=="title" ? element.msg:"" %>
+                </div>
+                <% }) %>
         </div>
-        <textarea name="content" id="content" cols="30" rows="6" class="border-0 outline-none fs-2 text-muted w-100"
-            placeholder="Tell us something..."></textarea>
+        <textarea name="content" id="content" cols="30" rows="6" class="border-0 outline-none fs-2 text-muted w-100 <%= typeof error.find((e)=>{return e.param == "content"}) !="undefined"
+            ? "is-invalid" :"" %>"
+            placeholder="Tell us something..."><%= typeof post != "undefined" ? post.content:"" %></textarea>
+            <% error.forEach(element=> { %>
+                <div class="invalid-feedback">
+                  <%= element.param=="content" ? element.msg:"" %>
+                </div>
+                <% }) %>
             <br>
         <button class="btn btn-dark btn-inline">Submit</button>
     </form>

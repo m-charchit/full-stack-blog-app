@@ -6,7 +6,7 @@
         <!-- Username input -->
         <div class="form-outline mb-4">
           <input type="text" id="username" name="username"
-            class="form-control <%= typeof error.find((e)=>{return e.param == " username"}) !="undefined" ? "is-invalid"
+            class="form-control <%= typeof error.find((e)=>{return e.param == "username"}) !="undefined" ? "is-invalid"
             :"" %>"
           value="<%= typeof username !='undefined' ? username : '' %>" />
             <label class="form-label" for="username">Username</label>
@@ -20,7 +20,7 @@
         <!-- Name -->
         <div class="form-outline mb-4">
           <input type="text" id="name" name="name"
-            class="form-control <%= typeof error.find((e)=>{return e.param == " name"}) !="undefined" ? "is-invalid"
+            class="form-control <%= typeof error.find((e)=>{return e.param == "name"}) !="undefined" ? "is-invalid"
             :"" %>"
           value="<%= typeof name !='undefined' ? name : '' %>" />
             <label class="form-label" for="name">Name</label>
@@ -35,7 +35,7 @@
         <!-- Email input -->
         <div class="form-outline mb-4">
           <input type="email" name="email" id="email"
-            class="form-control <%= typeof error.find((e)=>{return e.param == " email"}) !="undefined" ? "is-invalid"
+            class="form-control <%= typeof error.find((e)=>{return e.param == "email"}) !="undefined" ? "is-invalid"
             :"" %>"
           value="<%= typeof email !='undefined' ? email : '' %>" />
             <label class="form-label" for="email">Email address</label>
@@ -51,7 +51,7 @@
           <div class="col">
             <div class="form-outline mb-4">
               <input type="password" name="password" id="password"
-                class="form-control <%= typeof error.find((e)=>{return e.param == " password"}) !="undefined"
+                class="form-control <%= typeof error.find((e)=>{return e.param == "password"}) !="undefined"
                 ? "is-invalid" :"" %>"
               value="<%= typeof password !='undefined' ? password : '' %>" />
                 <label class="form-label" for="password">Password</label>
@@ -66,7 +66,7 @@
 
             <div class="form-outline mb-4">
               <input type="password" name="password2" id="confirmPass"
-                class="form-control <%= typeof error.find((e)=>{return e.param == " password2"}) !="undefined"
+                class="form-control <%= typeof error.find((e)=>{return e.param == "password2"}) !="undefined"
                 ? "is-invalid" :"" %> "
               value="<%= typeof password2 !='undefined' ? password2 : '' %>" />
                 <label class="form-label" for="confirmPass">Confirm password</label>
