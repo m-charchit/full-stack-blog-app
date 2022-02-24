@@ -5,6 +5,7 @@ const Post = require("../models/posts");
 const User = require("../models/users");
 const passport = require("passport");
 const { body, validationResult } = require("express-validator");
+const imgFunction = require("./imgFunction")
 
 router.get("/profile/:id", async (req, res) => {
   // @ts-ignore
@@ -83,10 +84,17 @@ router.post(
 
 router.post(
   "/setting",
+  imgFunction.upload,
   body("name", "The field cannot be empty and should be 6 character long")
     .not()
     .isEmpty()
     .isLength({ min: 6 }),
+    body("file").custom((value, { req }) => {
+      if (req.file && !req.file.mimetype.startsWith("image/")) {
+        throw new Error("Only image files are allowed");
+      }
+      return true;
+    }),
   body("email").isEmail(),
   body("about").isLength({ min: 25 }),
   body("password", "Length should be 5 or more").isLength({ min: 5 }),
@@ -98,6 +106,7 @@ router.post(
         
         return res.render("user/setting", { error: errors.array() });
       }
+      
       if (req.body.password) {
         // @ts-ignore
         const authenticate = User.authenticate();
@@ -111,10 +120,16 @@ router.post(
             return res.render("user/setting",{error:[]})
           }
           if (result) {
+            let profileImage 
+            if (req.file){
+               profileImage = await imgFunction.uploadImg(req.file,req.user.username,req.user.id,req.user.profileImage,"profile")
+            } else {
+               profileImage = req.user.profileImage
+            }
             const { name, email, about } = req.body;
             await User.findByIdAndUpdate(
               req.user.id,
-              { $set: { name,email, about } },
+              { $set: { name,email, about, profileImage } },
               { new: true }
               );
             // @ts-ignore

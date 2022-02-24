@@ -1,14 +1,19 @@
 <link rel="stylesheet" href="/css/write.css">
 <%- include("../custom/flash") %> 
 <div class="container p-5 ">
-    <img src="/images/defaultPost.jpg" alt="post image" class="postImage" width="400" height="400" />
+    <img src="<%= typeof post!= "undefined" ? post.postImage.url:"/images/defaultPost.jpg" %>" alt="post image" class="postImage" width="400" height="400" />
     <div class="d-flex flex-column ">
-        <form action="<%= typeof post != "undefined"? `/post/edit/${post.id}`:"/post/write" %>"  method="post">
+        <form action="<%= typeof post != "undefined"? `/post/edit/${post.id}`:"/post/write" %>"  method="post" enctype="multipart/form-data">
+          <% error.forEach(element=> { %>
+            <div class="text-danger">
+              <%= element.param=="file" ? element.msg:"" %>
+            </div>
+            <% }) %>
         <div class="d-flex my-3 align-items-center">
             <label for="fileInput"> 
                 <i class="fas fa-plus-circle fs-2 " role="button"></i>
               </label>
-            <input type="file" name="" class="d-none" autofocus="true" id="fileInput">
+            <input type="file" name="file" class="d-none" autofocus="true" id="fileInput">
             <input type="text" name="title" class="border-0 outline-none ms-3 fs-2 w-100 text-muted <%= typeof error.find((e)=>{return e.param == "title"}) !="undefined"
             ? "is-invalid" :"" %>" placeholder="Title.." value="<%= typeof post != "undefined" ? post.title:"" %>" />
             <% error.forEach(element=> { %>

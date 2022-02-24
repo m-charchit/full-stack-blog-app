@@ -12,14 +12,18 @@ const Post  = new mongoose.Schema({
       type : Date,
       default : Date.now
   } ,
-//   postImage: {
-//     type: Buffer,
-//     required: true
-//   },
-//   postImageType: {
-//     type: String,
-//     required: true
-//   },
+   postImage: {
+    url:{
+      type: String,
+      required: true,
+      default:"http://127.0.0.1:3000/images/defaultPost.jpg"
+    },
+    filename:{
+      type:String,
+      required:true,
+      default:"images/defaultPost.jpg"
+    }
+},
   user: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,

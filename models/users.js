@@ -18,14 +18,18 @@ const User  = new mongoose.Schema({
       type : Date,
       default : Date.now
   } ,
-  // profileImage: {
-  //   type: Buffer,
-  //   required: true
-  // },
-  // profileImageType: {
-  //   type: String,
-  //   required: true
-  // },
+  profileImage: {
+    url:{
+      type: String,
+      required: true,
+      default:"http://127.0.0.1:3000/images/default.jpg"
+    },
+    filename:{
+      type:String,
+      required:true,
+      default:"images/default.jpg"
+    }
+},
   about: {
     type:String,
     default:"User has not written about him."

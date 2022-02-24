@@ -2,15 +2,20 @@
 <div class="container text-center">
   <%- include('../custom/flash') %>
 
-    <form action="/user/setting" method="post">
+    <form action="/user/setting" method="post" enctype="multipart/form-data">
     <div class="row">
         <div class="col-md-4 ">
             <div class="d-flex align-items-center flex-column">
-                <img src="/images/default.jpg" alt="profile pic" width="200" height="200" class="rounded-circle hover-shadow" />
+                <img src="<%= currentUser.profileImage.url %>" alt="profile pic" width="200" height="200" class="rounded-circle hover-shadow" />
+                <input type="file" name="file" id="picInput" class="d-none" >
                 <label for="picInput">
                 <i class="fas fa-plus-circle fs-1" role="button" style="position: relative;top:-58px;left:-62px;"></i>
             </label>
-                <input type="file" name="" id="picInput" class="d-none">
+                <% error.forEach(element=> { %>
+                  <div class="text-danger">
+                    <%= element.param=="file" ? element.msg:"" %>
+                  </div>
+                  <% }) %>
             </div>
         </div>
         <div class="col-md-8 mt-4">
