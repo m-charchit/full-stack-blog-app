@@ -23,6 +23,7 @@ app.set('views', __dirname + '/views')
 app.set('layout', 'layouts/layout')
 app.use(expressLayouts)
 app.set("layout extractStyles", true)
+app.set("layout extractScripts", true)
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.json())
 app.use(methodOverride('_method'))
