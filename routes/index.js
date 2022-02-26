@@ -3,7 +3,7 @@ const router = express.Router();
 const FetchUser = require("../middleware/FetchUser.js");
 const Post = require("../models/posts");
 const { body, validationResult } = require("express-validator");
-const dotenv = require('dotenv');
+const dotenv = require("dotenv");
 dotenv.config();
 
 const nodemailer = require("nodemailer");
@@ -17,24 +17,26 @@ const transporter = nodemailer.createTransport({
 
 router.get("/", FetchUser, async (req, res) => {
   // @ts-ignore
-  var page = parseInt(req.query.page)
-  const postNo = 8
-  if (!page || page < 0){
-    page = 0
+  var page = parseInt(req.query.page);
+  const postNo = 8;
+  if (!page || page < 0) {
+    page = 0;
   }
-  const totalDocs = await Post.countDocuments()
-  var lastPage = Math.abs(Math.ceil(totalDocs/postNo) -1)
-  if (page>lastPage) page=lastPage
-  const posts = await Post.find().skip(page*postNo).limit(postNo);
-  res.render("index", {  posts: posts ,page:page, lastPage:lastPage});
+  const totalDocs = await Post.countDocuments();
+  var lastPage = Math.abs(Math.ceil(totalDocs / postNo) - 1);
+  if (page > lastPage) page = lastPage;
+  const posts = await Post.find()
+    .skip(page * postNo)
+    .limit(postNo);
+  res.render("index", { posts: posts, page: page, lastPage: lastPage });
 });
 
 router.get("/contact", (req, res) => {
-  	return res.render("contact", { error: [] });
+  return res.render("contact", { error: [] });
 });
 
 router.post(
-  "/contact", 
+  "/contact",
   body("name").not().isEmpty(),
   body("email").isEmail(),
   body("message", "Should contain atleast 30 character").isLength({ min: 30 }),
@@ -42,29 +44,29 @@ router.post(
     const { name, email, message } = req.body;
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      
       return res.render("contact", { error: errors.array() });
     }
     var mailOptions = {
       from: email,
       to: "charchit.dahiya@gmail.com",
       subject: `Message from ${name} on Super blog`,
-      html:`${message}\n\n${req.user.username}\n\nhttp://127.0.0.1:3000/user/profile/${req.user.id}`,
+      html: `${message}\n\n${req.user.username}\n\nhttp://127.0.0.1:3000/user/profile/${req.user.id}`,
     };
 
     transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
-		  // @ts-ignore
-		  req.flash("danger","Error occured! Try again later. If error persists , contact creator.")
-		  return res.redirect("contact")
+        // @ts-ignore
+        req.flash(
+          "danger",
+          "Error occured! Try again later. If error persists , contact creator."
+        );
+        return res.redirect("contact");
       } else {
-		  
-		  // @ts-ignore
-		  req.flash("success","Message sent successfully!")
-		  return res.redirect("contact");
+        // @ts-ignore
+        req.flash("success", "Message sent successfully!");
+        return res.redirect("contact");
       }
     });
-
   }
 );
 

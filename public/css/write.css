@@ -1,9 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap');
-
+@import url("https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap");
 
 .postImage {
-    width: 100%;
-    height: 250px;
-    border-radius: 10px;
-    object-fit: cover;
+  width: 100%;
+  height: 250px;
+  border-radius: 10px;
+  object-fit: cover;
 }

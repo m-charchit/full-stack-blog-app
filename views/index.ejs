@@ -1,11 +1,19 @@
-<header class="header text-light " style="background-image: url(/images/home.jpg) !important;background-size:cover !important;background:no-repeat center center;">
-    <div class="position-relative mask" style="padding:13rem 0rem;background-color: rgba(0, 0, 0, 0.6)">
-                <div class="text-center">
-                    <h1>Super Blog</h1>
-            </div>
-    </div>  
-</header> 
+<header
+  class="header text-light"
+  style="
+    background-image: url(/images/home.jpg) !important;
+    background-size: cover !important;
+    background: no-repeat center center;
+  "
+>
+  <div
+    class="position-relative mask"
+    style="padding: 13rem 0rem; background-color: rgba(0, 0, 0, 0.6)"
+  >
+    <div class="text-center">
+      <h1>Super Blog</h1>
+    </div>
+  </div>
+</header>
 
 <%- include("./custom/cards.ejs",{posts:posts,page:page,lastPage:lastPage}) %>
-
-

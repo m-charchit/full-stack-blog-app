@@ -2,26 +2,36 @@
   <%- include('../custom/flash') %>
   <h1 class="p-4">Login</h1>
   <section class="d-flex justify-content-center">
-  <form action="/auth/login" method="post" style="width:32rem;">
-    <!-- Username input -->
-    <div class="form-outline mb-4">
-      <input type="text" name="username" id="form1Example1" class="form-control" value="<%= typeof username != 'undefined' ? username : '' %>"/>
-      <label class="form-label" for="form1Example1">Username</label>
-    </div>
-  
-    <!-- Password input -->
-    <div class="form-outline mb-4">
-      <input type="password" name="password" id="form1Example2" class="form-control" value="<%= typeof password != 'undefined' ? password : '' %>"/>
-      <label class="form-label" for="form1Example2">Password</label>
-    </div>
-  
-    
-  
-    <!-- Submit button -->
-    <button type="submit" class="btn btn-primary btn-block ">Login</button>
-    <div class="text-center p-4">
-      <p>Not a member? <a href="/auth/register">Register</a></p>
+    <form action="/auth/login" method="post" style="width: 32rem">
+      <!-- Username input -->
+      <div class="form-outline mb-4">
+        <input
+          type="text"
+          name="username"
+          id="form1Example1"
+          class="form-control"
+          value="<%= typeof username != 'undefined' ? username : '' %>"
+        />
+        <label class="form-label" for="form1Example1">Username</label>
       </div>
-  </form>
-</section>
+
+      <!-- Password input -->
+      <div class="form-outline mb-4">
+        <input
+          type="password"
+          name="password"
+          id="form1Example2"
+          class="form-control"
+          value="<%= typeof password != 'undefined' ? password : '' %>"
+        />
+        <label class="form-label" for="form1Example2">Password</label>
+      </div>
+
+      <!-- Submit button -->
+      <button type="submit" class="btn btn-primary btn-block">Login</button>
+      <div class="text-center p-4">
+        <p>Not a member? <a href="/auth/register">Register</a></p>
+      </div>
+    </form>
+  </section>
 </div>

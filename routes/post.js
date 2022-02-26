@@ -4,11 +4,11 @@ const FetchUser = require("../middleware/FetchUser");
 const User = require("../models/users");
 const Post = require("../models/posts");
 const { body, validationResult } = require("express-validator");
-const imgFunction = require("./imgFunction")
+const imgFunction = require("./imgFunction");
 
 router.get("/u/:id", async (req, res) => {
   const post = await Post.findById(req.params.id).populate("user");
-  console.log(post);
+
   return res.render("posts/post", { post: post });
 });
 
@@ -27,7 +27,7 @@ router.get("/edit/:id", FetchUser, async (req, res) => {
 
       return res.redirect(`/post/u/${userPost.id}`);
     }
-    console.log(userPost);
+
     if (userPost) {
       return res.render("posts/write", { post: userPost, error: [] });
     }
@@ -43,8 +43,13 @@ router.post(
   body("title").isLength({ min: 15 }),
   body("content").isLength({ min: 200 }),
   body("file").custom((value, { req }) => {
-    if (req.file && !req.file.mimetype.startsWith("image/")) {
-      throw new Error("Only image files are allowed");
+    if (req.file) {
+      if (!req.file.mimetype.startsWith("image/")) {
+        throw new Error("Only image are allowed!");
+      }
+      if (req.file.size > 5000000) {
+        throw new Error("File is exceeding the max file size of 5 mb.");
+      }
     }
     return true;
   }),
@@ -53,20 +58,26 @@ router.post(
     try {
       const findPost = await Post.findById(req.params.id);
       if (findPost.user.toString() !== req.user.id) {
-
         return res.redirect(`/post/u/${findPost.id}`);
       }
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
-        return res.render("posts/write", { error: errors.array(),post:findPost });
+        return res.render("posts/write", {
+          error: errors.array(),
+          post: findPost,
+        });
       }
-      
-      if (req.file){
-        console.log("joi")
-        req.body.postImage = await imgFunction.uploadImg(req.file,req.user.username,findPost.id,findPost.postImage)
-    } else {
-        req.body.postImage = findPost.postImage
-    }
+
+      if (req.file) {
+        req.body.postImage = await imgFunction.uploadImg(
+          req.file,
+          req.user.username,
+          findPost.id,
+          findPost.postImage
+        );
+      } else {
+        req.body.postImage = findPost.postImage;
+      }
       const post = await Post.findOneAndUpdate(
         { _id: req.params.id, user: req.user.id },
         { $set: req.body },
@@ -90,7 +101,7 @@ router.post("/deletePost/:id", async (req, res) => {
 
       return res.redirect(`/post/u/${findPost.id}`);
     }
-    await imgFunction.deleteImg(findPost.postImage.filename)
+    await imgFunction.deleteImg(findPost.postImage.filename);
     await Post.findOneAndDelete({ _id: req.params.id, user: req.user.id });
     return res.redirect("/");
   } catch (error) {
@@ -105,8 +116,13 @@ router.post(
   body("title").isLength({ min: 15 }),
   body("content").isLength({ min: 200 }),
   body("file").custom((value, { req }) => {
-    if (req.file && !req.file.mimetype.startsWith("image/")) {
-      throw new Error("Only image files are allowed");
+    if (req.file) {
+      if (!req.file.mimetype.startsWith("image/")) {
+        throw new Error("Only image are allowed!");
+      }
+      if (req.file.size > 5000000) {
+        throw new Error("File is exceeding the max file size of 5 mb.");
+      }
     }
     return true;
   }),
@@ -118,23 +134,27 @@ router.post(
         return res.render("posts/write", { error: errors.array() });
       }
       const { title, content } = req.body;
-      let postImage 
-      
+      let postImage;
+
       // @ts-ignore
-      const post =  Post({
+      const post = Post({
         title,
         content,
         user: req.user,
       });
-      console.log(req.file)
-      if (req.file){
-        console.log("joi")
-        postImage = await imgFunction.uploadImg(req.file,req.user.username,post.id,post.postImage)
-    } else {
-        postImage = post.postImage
-    }
-    post.postImage = postImage
-    await post.save()
+
+      if (req.file) {
+        postImage = await imgFunction.uploadImg(
+          req.file,
+          req.user.username,
+          post.id,
+          post.postImage
+        );
+      } else {
+        postImage = post.postImage;
+      }
+      post.postImage = postImage;
+      await post.save();
       if (post) {
         return res.redirect(`/post/u/${post.id}`);
       }

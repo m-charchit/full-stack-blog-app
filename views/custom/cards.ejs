@@ -1,34 +1,48 @@
 <div class="container p-5 text-center">
-    <div class="row row-cols-1 row-cols-md-2 g-4">
-      <% posts.length != 0 && posts.forEach(e => { %>
-       
-        <div class="col">
-          <div class="card h-100">
-            <img src="<%= e.postImage.url %>" class="card-img-top" alt="Post Image"/>
-            <div class="card-body">
-              <h5 class="card-title"><%= e.title.slice(0,80) %> </h5>
-              <p class="card-text">
-                <%= e.content.slice(0,100) %> 
-              </p>
-              <a href="<%= `/post/u/${e.id}` %>"  class="btn btn-dark">Read Full Post</a>
-            </div>
-          </div>
+  <div class="row row-cols-1 row-cols-md-2 g-4">
+    <% posts.length != 0 && posts.forEach(e => { %>
+
+    <div class="col">
+      <div class="card h-100">
+        <img
+          src="<%= e.postImage.url %>"
+          class="card-img-top"
+          alt="Post Image"
+        />
+        <div class="card-body">
+          <h5 class="card-title"><%= e.title.slice(0,80) %></h5>
+          <p class="card-text"><%= e.content.slice(0,100) %></p>
+          <a href="<%= `/post/u/${e.id}` %>" class="btn btn-dark"
+            >Read Full Post</a
+          >
         </div>
-        <% }) %>
       </div>
-      <% if (posts.length != 0) { %>
-       
-        <nav aria-label="..." >
-          <ul class="pagination pagination-lg justify-content-between mt-5">
-            <li class="page-item disabled">
-              <a class=" btn btn-dark btn-lg mx-2 <%= page==0 ? 'disabled':'' %> " role="button" href="?page=<%= page - 1 %> ">Previous</a>
-            </li>
-            <li class="page-item">
-              <a class=" btn btn-dark btn-lg mx-2 <%= page==lastPage ? 'disabled':'' %>" role="button" href="?page=<%= page + 1%> ">Next</a>
-            </li>
-          </ul>
-        </nav>
-        <% } else { %>
-          <h1>No Posts</h1>
-          <% } %>
-      </div>
+    </div>
+    <% }) %>
+  </div>
+  <% if (posts.length != 0) { %>
+
+  <nav aria-label="...">
+    <ul class="pagination pagination-lg justify-content-between mt-5">
+      <li class="page-item disabled">
+        <a
+          class="btn btn-dark btn-lg mx-2 <%= page==0 ? 'disabled':'' %>"
+          role="button"
+          href="?page=<%= page - 1 %> "
+          >Previous</a
+        >
+      </li>
+      <li class="page-item">
+        <a
+          class="btn btn-dark btn-lg mx-2 <%= page==lastPage ? 'disabled':'' %>"
+          role="button"
+          href="?page=<%= page + 1%> "
+          >Next</a
+        >
+      </li>
+    </ul>
+  </nav>
+  <% } else { %>
+  <h1>No Posts</h1>
+  <% } %>
+</div>

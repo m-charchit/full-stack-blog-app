@@ -1,16 +1,26 @@
-<style>body{background: #f7f2f266;}</style>
-<br>
+<style>
+  body {
+    background: #f7f2f266;
+  }
+</style>
+<br />
 <div class="container text-center">
-    <div class="flex flex-column align-items-center">
-        <img src="<%= user.profileImage.url %>" alt="" width="200" height="200" class="rounded-circle hover-shadow" style="">
-        <div class="profileDiv shadow-2-strong hover-shadow">
-            <h3><%= user.name %> </h3>
-            <hr>
-            <div><%=  user.about %></div>
-        </div>
+  <div class="flex flex-column align-items-center">
+    <img
+      src="<%= user.profileImage.url %>"
+      alt=""
+      width="200"
+      height="200"
+      class="rounded-circle hover-shadow"
+      style=""
+    />
+    <div class="profileDiv shadow-2-strong hover-shadow">
+      <h3><%= user.name %></h3>
+      <hr />
+      <div><%= user.about %></div>
     </div>
-    <h1>User Posts</h1>
-    <hr>
-    <%- include("../custom/cards.ejs",{page:page,lastPage:lastPage}) %> 
-
+  </div>
+  <h1>User Posts</h1>
+  <hr />
+  <%- include("../custom/cards.ejs",{page:page,lastPage:lastPage}) %>
 </div>
