@@ -8,13 +8,15 @@ const mongoose = require("mongoose");
 const methodOverride = require("method-override");
 const passport = require("passport");
 const bodyParser = require("body-parser");
+const dotenv = require("dotenv");
+dotenv.config();
 
 const User = require("./models/users");
 const indexRouter = require("./routes/index");
 const authRouter = require("./routes/auth");
 const postRouter = require("./routes/post");
 const userRouter = require("./routes/user");
-const mongoDbUri = "mongodb://localhost/test";
+const mongoDbUri = process.env.MONGO_DB_URI;
 
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
@@ -29,7 +31,7 @@ app.use(express.static("public"));
 app.use(flash());
 app.use(
   session({
-    secret: "process.env.SECRET",
+    secret: process.env.SECRET,
     resave: false,
     saveUninitialized: true,
     store: mongoStore.create({
